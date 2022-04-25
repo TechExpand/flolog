@@ -314,7 +314,7 @@ class _DetailPageState extends State<DetailPage>{
                     child: ClipRRect(
                       borderRadius:
                           const BorderRadius.all(const Radius.circular(5)),
-                      child: Image.asset(
+                      child: Image.network(
                         widget.data.image.toString(),
                         fit: BoxFit.fill,
                       ),
@@ -333,7 +333,7 @@ class _DetailPageState extends State<DetailPage>{
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        widget.data.title.toString().toUpperCase(),
+                        widget.data.name.toString().toUpperCase(),
                         style: TextStyle(
                           color: Color(clrBlack),
                           fontSize: 19,
@@ -451,7 +451,7 @@ class _DetailPageState extends State<DetailPage>{
                 child: Padding(
                   padding: EdgeInsets.only(top: 8.0, left: 10),
                   child: Text(
-                    '${widget.data.type.toString()} - ${widget.data.dose.toString()}mg',
+                    '${widget.data.strength.toString()} - ${widget.data.strength.toString()}',
                     style: TextStyle(color: Colors.black38, fontSize: 17),
                   ),
                 ),
@@ -462,7 +462,9 @@ class _DetailPageState extends State<DetailPage>{
                   padding: EdgeInsets.only(top: 8.0, left: 10),
                   child: Text(
                     '₦${widget.data.price.toString()}.00',
-                    style: TextStyle(color: Color(clrBlue), fontSize: 17),
+                    style: TextStyle(
+                        fontFamily: "Roboto",
+                        color: Color(clrBlue), fontSize: 17),
                   ),
                 ),
               ),
@@ -471,7 +473,7 @@ class _DetailPageState extends State<DetailPage>{
                 child: Padding(
                   padding: EdgeInsets.only(top: 8.0, left: 10),
                   child: Text(
-                    'BRAND NAME',
+                    '${widget.data.brand.toString()}',
                     style: TextStyle(color: Colors.black38, fontSize: 17),
                   ),
                 ),

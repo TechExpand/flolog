@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Contants/color.dart';
+import 'CheckOutFlow/checkout_delivery.dart';
 
 
 
@@ -134,6 +135,7 @@ PageController controller = PageController(initialPage: 0,viewportFraction: 1);
                         padding: const EdgeInsets.only(left: 15.0),
                         child: InkWell(
                           onTap: () {
+
                             // addCartDialog(context);
                           },
                           child: AnimatedContainer(
@@ -161,7 +163,7 @@ PageController controller = PageController(initialPage: 0,viewportFraction: 1);
                               children: [
                                 Icon(Icons.phone, color: Color(clrBlue),),
                                 Text(
-                                  'CHECKOUT',
+                                  'CONTACT US',
                                   style: TextStyle(
                                       color: Color(clrBlue),
                                       fontWeight: FontWeight.bold),
@@ -176,6 +178,22 @@ PageController controller = PageController(initialPage: 0,viewportFraction: 1);
                         padding: const EdgeInsets.only(left: 15.0),
                         child: InkWell(
                           onTap: () {
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) {
+                                  return CheckOutDelivery();
+                                },
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  return FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
                             // addCartDialog(context);
                           },
                           child: AnimatedContainer(

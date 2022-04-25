@@ -1,9 +1,12 @@
 import 'dart:ui';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flolog/Module/homebloc/home_cubit.dart';
+import 'package:flolog/Widget/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../Contants/color.dart';
 import '../../Widget/AutoComplete.dart';
+import '../../Widget/drawer.dart';
 import '../detailBloc/detail_view.dart';
 import '../searchBloc/search_view.dart';
 
@@ -13,7 +16,23 @@ class SearchData {
   SearchData(this.name);
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+
+
+class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<HomeCubit>(context).getProducts();
+  }
+
   List<String>? searchList = [
     'Anti-Malaria',
     'Antacids',
@@ -24,17 +43,31 @@ class HomePage extends StatelessWidget {
     'Vaccines',
   ];
 
+  final scafoldKey = GlobalKey<ScaffoldState>();
+
   TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
+        key: scafoldKey,
+        drawer: SizedBox(
+          width: 300,
+          child: Drawer(
+            child: DrawerWidget(context),
+          ),
+        ),
         appBar: AppBar(
           backgroundColor: Colors.white,
-          leading: Icon(
-            Icons.arrow_back_ios,
-            color: Color(clrBlack),
+          leading: IconButton(
+            onPressed: (){
+              scafoldKey.currentState?.openDrawer();
+            },
+            icon:  Icon(
+              EvaIcons.menu2,
+              color: Color(clrBlack),
+            ),
           ),
           actions: [
             Container(
@@ -91,7 +124,7 @@ class HomePage extends StatelessWidget {
                         hoverColor: Color(0xFF2B1137),
                       ),
                       suggestions: searchList,
-                      key: key,
+                      key: widget.key,
                       textEditingController: controller,
                       onItemSelect: (val) {
                         Navigator.push(
@@ -348,7 +381,7 @@ class HomePage extends StatelessWidget {
               ),
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
-                  return Container(
+                  return state.suggestions.length==0?shimmerEffect(context):Container(
                     margin: EdgeInsets.only(left: 10, right: 10),
                     width: MediaQuery.of(context).size.width,
                     child: GridView.builder(
@@ -400,7 +433,7 @@ class HomePage extends StatelessWidget {
                                           child: Hero(
                                             tag: state.suggestions[index].id
                                                 .toString(),
-                                            child: Image.asset(
+                                            child: Image.network(
                                               state.suggestions[index].image
                                                   .toString(),
                                               fit: BoxFit.fill,
@@ -425,7 +458,7 @@ class HomePage extends StatelessWidget {
                                         padding: const EdgeInsets.only(
                                             left: 8.0, top: 7),
                                         child: Text(
-                                          "${state.suggestions[index].title}"
+                                          "${state.suggestions[index].name}"
                                               .toUpperCase(),
                                           style: TextStyle(
                                             color: Color(clrBlack),
@@ -437,7 +470,7 @@ class HomePage extends StatelessWidget {
                                           padding: const EdgeInsets.only(
                                               left: 8.0, top: 2),
                                           child: Text(
-                                            "${state.suggestions[index].type}",
+                                            "${state.suggestions[index].dosageForm}",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black38),
@@ -446,7 +479,7 @@ class HomePage extends StatelessWidget {
                                         padding: const EdgeInsets.only(
                                             left: 8.0, top: 8),
                                         child: Text(
-                                          "₦${state.suggestions[index].price}.00",
+                                          "₦${state.suggestions[index].price}",
                                           style: TextStyle(
                                               color: Color(clrBlue),
                                               fontSize: 16,

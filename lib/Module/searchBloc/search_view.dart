@@ -260,7 +260,7 @@ class SeachView extends StatelessWidget {
                                       ),
                                       Padding(
                                           padding: const EdgeInsets.only(left:8.0, top: 2),
-                                          child: Text("${state.suggestions[index].type}",  style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black38),)),
+                                          child: Text("${state.suggestions[index].label}",  style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black38),)),
 
                                       Padding(
                                         padding: const EdgeInsets.only(left:8.0, top: 8),
